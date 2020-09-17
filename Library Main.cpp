@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<limits>
 #include"Library.h"
 
 int main()
@@ -16,7 +17,7 @@ int main()
         std::cout<<"Enter\n1.User\n2.Librarian\n3.Create librarian\n4.Exit"<<std::endl;
         std::cin >> choice; 
         std::cin.clear();
-        std::cin.sync();
+        std::cin.ignore( std::numeric_limits < std::streamsize > ::max(),'\n'); 
         switch(choice)
         {
             case 1:

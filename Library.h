@@ -2,6 +2,7 @@
 #include<vector>
 #include<map>
 #include<string>
+#include<limits>
 #include "Book.h"
 #include "Borrow.h"
 #include "Librarian.h"
@@ -364,7 +365,7 @@ class Library
                     std::cout << "Enter required task :\n1.See available book \n2.Borrowed Book details\n3.Logout" << std::endl;
                     std::cin >> choice;
                     std::cin.clear();
-                    std::cin.sync();
+                    std::cin.ignore( std::numeric_limits < std::streamsize > ::max(),'\n'); 
                     switch(choice)
                     {
                         case 1:
@@ -421,7 +422,7 @@ class Library
                     std::cout << "Enter required task : \n1.Add Book\n2.Create user\n3.Return Book\n4.Borrow Book\n5.Book details\n6.Extend due date\n7.Logout" << std::endl;
                     std::cin >> choice;
                     std::cin.clear();
-                    std::cin.sync();
+                    std::cin.ignore( std::numeric_limits < std::streamsize > ::max(),'\n'); 
                     switch(choice)
                     {
                         case 1:
