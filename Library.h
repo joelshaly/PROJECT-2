@@ -94,14 +94,14 @@ class Library
                 return true;
             }
 
-            int availability( int book_slno)
+            int availability( std::string book_slno)
             {
-                int flag;
+                int flag = 3;
                 for( int i = 0; i < borrow_vector.size() ; i++)
                 {
                     if( borrow_vector[i].get_book_slno() == book_slno)
                     {
-                        flag = 0;
+                        flag = 3;
                         break;
                     }
                     else
@@ -112,6 +112,27 @@ class Library
                 return flag;
             }
 
+            void print_available_books()
+            {
+                int index = 0;
+                std::string slno;
+                for(int i = 0; i < book_vector.size(); ++i)
+                { 
+                    slno = book_vector[i].get_slno();
+                    if(availability(slno) == 3)
+                    {
+                        index++;
+                    }
+                    else
+                    {                                    
+                        book_vector[i].print();
+                    }
+                }
+                if(index == book_vector.size())
+                {
+                    std::cout<<"No books are available" <<std::endl;
+                }
+            }
             bool borrow_book()
             {
                 Library library;
@@ -121,29 +142,47 @@ class Library
                 std::cout <<"**************************************************************************" << std::endl;
                 std::cout<<"Enter username" <<std::endl;
                 std::getline(std::cin,user_name);
-                int book_slno;
-                for(int i = 0; i < book_vector.size(); ++i)
-                {
-                    book_vector[i].print();
-                }
-                std::cout <<"Enter book name" << std::endl;
-                std::getline( std::cin, book_name);
+                std::string book_slno;
+                int index , a;
+                print_available_books();
                 std::cout <<"Enter serial number of the required book." << std::endl;
-                std::cin >> book_slno;
-                if( availability( book_slno) != 0)
+                std::getline(std::cin , book_slno);
+                for( int i = 0; i < book_vector.size(); i++)
                 {
-                    std::cout<<"The book is borrowed" << std::endl;
-                    borrow.read( book_name , book_slno , user_name);
-                    borrow_vector.push_back(borrow);
+                    if(book_vector[i].get_slno() == book_slno)
+                    {
+                        a++;
+                        book_name = book_vector[i].get_book();
+                        if( availability( book_slno) != 3)
+                        {
+                            std::cout<<"The book is borrowed" << std::endl;
+                            borrow.read( book_name , book_slno , user_name);
+                            borrow_vector.push_back(borrow);
+                            index = 0;
+                            break;
+                        }
+                        else
+                        {
+                            std::cout << "The book is not available" << std::endl; 
+                            index++;
+                            break;
+                        }
+                    }
+                }
+                if( a == 0)
+                {
+                    std::cout<< "Given serial number is wrong" << std::endl;
+                }
+                if( index == 0)
+                {
                     return true;
                 }
                 else
                 {
-                    std::cout << "The book is not available"; 
                     return false;
                 }
+                
             }
-
             bool borrower_details()
             {
                 int index = 0;
@@ -153,13 +192,12 @@ class Library
                 std::getline(std::cin,user_name);
                 if(borrow_vector.size() > 0)
                 {
-                    for(int i=0; borrow_vector.size(); i++)
+                    for(int i=0; i < borrow_vector.size(); i++)
                     {
                         if(borrow_vector[i].get_borrower_name() == user_name)
                         {
                             borrow_vector[i].print();
                             index++;
-                            break;
                         }
                     }
                 }    
@@ -176,19 +214,18 @@ class Library
 
             void return_book()
             {
-                std::string user_name;
-                int sl_no;
+                std::string user_name, sl_no;
                 std::cout <<"**************************************************************************" << std::endl;
                 std::cout<< "Enter user name" << std::endl;
                 std::getline( std::cin ,user_name);               
                 std::cout<< "Enter serial no of book"<< std::endl;
-                std::cin >> sl_no;
+                std::getline(std::cin , sl_no);
                 for(auto it  = borrow_vector.begin() ; it != borrow_vector.end(); ++it)
                 {
                     if(it->get_borrower_name() == user_name && it->get_book_slno() == sl_no)
                     {
                         borrow_vector.erase(it);
-                        std::cout <<"The book has been returned";
+                        std::cout <<"The book has been returned" << std::endl;
                         break;
                     }
                     else
@@ -200,14 +237,14 @@ class Library
 
             bool change_due_date()
             {
-                std::string user_name;
-                int slno, index = 0;
+                std::string user_name ,slno;
+                int index = 0;
                 double new_date;
                 std::cout <<"**************************************************************************" << std::endl;
                 std::cout<<"Enter user "<<std::endl;
                 std::getline(std::cin , user_name);
                 std::cout << "Enter sl no. of book" <<std::endl;
-                std::cin >> slno;
+                std::getline(std::cin, slno);
 
                 for(int i = 0; i < borrow_vector.size(); i++)
                 {
@@ -370,14 +407,7 @@ class Library
                     {
                         case 1:
                         {
-                            for(int i = 0; i < book_vector.size(); ++i)
-                            { 
-                                int sl_n = book_vector[i].get_slno();
-                                if( availability(sl_n) != 0)
-                                {
-                                    book_vector[i].print();
-                                }
-                            }
+                            print_available_books();
                             break;
                         }
                         case 2:
@@ -471,11 +501,3 @@ class Library
             }
 
 };
-
-            
-
-            
-            
-
-            
-

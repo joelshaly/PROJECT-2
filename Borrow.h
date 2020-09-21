@@ -6,7 +6,7 @@ class Borrow
 {
     private:
             std::string borrow_book_name;
-            int borrow_book_slno;
+            std::string borrow_book_slno;
             std::string borrower_name;
             time_t due_date;
     public:
@@ -15,7 +15,7 @@ class Borrow
                 this-> borrow_book_name = borrow_book_name;
             }
 
-            void set_book_slno( int borrow_book_slno)
+            void set_book_slno( std::string borrow_book_slno)
             {
                 this-> borrow_book_slno = borrow_book_slno;
             }   
@@ -30,7 +30,7 @@ class Borrow
                 this -> due_date = due_date;
             }
 
-            int get_book_slno() const
+            std::string get_book_slno() const
             {
                 return borrow_book_slno;
             }
@@ -50,7 +50,7 @@ class Borrow
                 return due_date;
             }
 
-            void read(std::string borrow_book_name, int borrow_book_slno , std::string borrower_name)
+            void read(std::string borrow_book_name, std::string borrow_book_slno , std::string borrower_name)
             {
                 int due;
                 this -> borrow_book_name = borrow_book_name;
@@ -77,11 +77,8 @@ std::ostream& operator<<(std::ostream& os, Borrow& b)
 
 std::istream& operator>>(std::istream& is, Borrow& b)
 {
-    std::string sl_no_string;
-    std::getline(is, sl_no_string);
-    std::stringstream  linestream ( sl_no_string );
-    int borrow_book_slno;
-    linestream >> borrow_book_slno;
+    std::string borrow_book_slno;
+    std::getline(is, borrow_book_slno);
     b.set_book_slno(borrow_book_slno);
     
     std::string borrow_book_name;

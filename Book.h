@@ -5,7 +5,7 @@ class Book
 {
     private:
 
-        int book_sl_no;
+        std::string book_sl_no;
         std::string book_name;
         std::string author_name;
     
@@ -16,7 +16,7 @@ class Book
             this -> book_name = book_name;
         }
 
-        void set_slno( int book_sl_no )
+        void set_slno( std::string book_sl_no )
         {
             this -> book_sl_no = book_sl_no;
         }
@@ -31,7 +31,7 @@ class Book
             return( book_name);
         }
 
-        int get_slno() const
+        std::string get_slno() const
         {
             return ( book_sl_no);
         }
@@ -45,10 +45,8 @@ class Book
         {
             std::cout<<"Book Details" << std::endl;
             std::cout <<"Enter Serial Number " << std::endl;
-            std::string serial_string;
-            std::getline( std::cin , serial_string);
-            std::stringstream linestream (serial_string);
-            linestream >> book_sl_no;
+            std::getline( std::cin , book_sl_no);
+        
   
             std::cout<<"Enter book name " << std::endl;
             std::getline ( std::cin,book_name);
@@ -57,9 +55,9 @@ class Book
             std::getline (std::cin ,author_name);        
         }
 
-        void print ()
+        void print()
         {
-            std::cout << book_sl_no <<" " << book_name <<" " << author_name << std::endl;
+            std::cout <<"Sl. No : " << book_sl_no <<" Book name : " << book_name <<" Author name : " << author_name << std::endl;
         }
 };
 
@@ -71,11 +69,8 @@ std::ostream& operator<<(std::ostream& os,const Book& b)
 
 std::istream& operator>>(std::istream& is, Book& b)
 {
-    std::string slnoString;
-    std::getline(is, slnoString);
-    std::stringstream  linestream ( slnoString );
-    int book_slno;
-    linestream >> book_slno;
+    std::string book_slno;
+    std::getline(is, book_slno);
     b.set_slno(book_slno);
 
     std::string book_name;
@@ -87,4 +82,3 @@ std::istream& operator>>(std::istream& is, Book& b)
     b.set_author( author_name);
     return is;
 }
-
